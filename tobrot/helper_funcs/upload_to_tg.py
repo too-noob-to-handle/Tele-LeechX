@@ -322,6 +322,48 @@ VIDEO_SUFFIXES = ("MKV", "MP4", "MOV", "WMV", "3GP", "MPG", "WEBM", "AVI", "FLV"
 AUDIO_SUFFIXES = ("MP3", "M4A", "M4B", "FLAC", "WAV", "AIF", "OGG", "AAC", "DTS", "MID", "AMR", "MKA")
 IMAGE_SUFFIXES = ("JPG", "JPX", "PNG", "WEBP", "CR2", "TIF", "BMP", "JXR", "PSD", "ICO", "HEIC", "JPEG")
 
+async def sendPRMDocument(local_file_name, thumb, caption_str, prog, from_user,  start_time):
+    with userBot:
+        LOGGER.info("UserBot Upload : Started")
+        sent_msg = await userBot.send_document(
+             chat_id=int(PRM_LOG),
+             document=local_file_name,
+             thumb=thumb,
+             caption=caption_str,
+             parse_mode=enums.ParseMode.HTML,
+             disable_notification=True,
+             progress=prog.progress_for_pyrogram,
+             progress_args=(
+                 ((BotTheme(from_user)).TOP_PROG_MSG).format(base_file_name = opath.basename(local_file_name)),
+                 start_time,
+             ),
+        )
+        LOGGER.info("UserBot Upload : Completed")
+    return sent_msg
+
+async def sendPRMVideo(local_file_name, thumb, duration, width, height, caption_str, prog, from_user, start_time):
+    with userBot:
+        LOGGER.info("UserBot Upload : Started [VIDEO]")
+        sent_msg = await userBot.send_video(
+            chat_id=int(PRM_LOG),
+            video=local_file_name,
+            thumb=thumb,
+            duration=duration,
+            width=width,
+            height=height,
+            supports_streaming=True,
+            caption=caption_str,
+            parse_mode=enums.ParseMode.HTML,
+            disable_notification=True,
+            progress=prog.progress_for_pyrogram,
+            progress_args=(
+                ((BotTheme(from_user)).START_UPLOAD_MSG).format(filename = opath.basename(local_file_name)),
+                start_time,
+            ),
+        )
+        LOGGER.info("UserBot Upload : Completed")
+    return sent_msg
+
 async def upload_single_file(message, local_file_name, caption_str, from_user, client, edit_media, yt_thumb, prm_atv: bool):
     idc = False
     base_file_name = opath.basename(local_file_name)
@@ -376,22 +418,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                 ),
             )
         elif message.chat.id in EXCEP_CHATS and prm_atv:
-            with userBot:
-                LOGGER.info("UserBot Upload : Started")
-                sent_msg = await userBot.send_document(
-                    chat_id=int(PRM_LOG),
-                    document=local_file_name,
-                    thumb=thumb,
-                    caption=caption_str,
-                    parse_mode=enums.ParseMode.HTML,
-                    disable_notification=True,
-                    progress=prog.progress_for_pyrogram,
-                    progress_args=(
-                        ((BotTheme(from_user)).TOP_PROG_MSG).format(base_file_name = opath.basename(local_file_name)),
-                        start_time,
-                    ),
-                )
-                LOGGER.info("UserBot Upload : Completed")
+            sent_msg = await sendPRMDocument(local_file_name, thumb, caption_str, prog, from_user,  start_time)
             try:
                 sent_message = await client.send_document(
                     chat_id=message.chat.id,
@@ -550,26 +577,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                             ),
                          )
                     elif message.chat.id in EXCEP_CHATS and prm_atv:
-                        with userBot:
-                            LOGGER.info("UserBot Upload : Started [VIDEO]")
-                            sent_msg = await userBot.send_video(
-                                chat_id=int(PRM_LOG),
-                                video=local_file_name,
-                                thumb=thumb,
-                                duration=duration,
-                                width=width,
-                                height=height,
-                                supports_streaming=True,
-                                caption=caption_str,
-                                parse_mode=enums.ParseMode.HTML,
-                                disable_notification=True,
-                                progress=prog.progress_for_pyrogram,
-                                progress_args=(
-                                    ((BotTheme(from_user)).START_UPLOAD_MSG).format(filename = opath.basename(local_file_name)),
-                                    start_time,
-                                ),
-                            )
-                            LOGGER.info("UserBot Upload : Completed")
+                        send_msg = await sendPRMVideo(local_file_name, thumb, duration, width, height, caption_str, prog, from_user, start_time)
                         sent_message = await client.copy_message(
                             chat_id=message.chat.id,
                             from_chat_id=int(PRM_LOG),
