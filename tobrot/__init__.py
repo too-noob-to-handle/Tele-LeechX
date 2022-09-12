@@ -322,13 +322,13 @@ if len(STRING_SESSION) > 10:
         api_hash=API_HASH[0],
         session_string=STRING_SESSION,
     ):
-        userBot.start()
-        if (userBot.get_me()).is_premium:
-            isUserPremium = True
-            LOGGER.info("[SUCCESS] Initiated UserBot : Premium Mode") #Logging is Needed Very Much
-        else:
-            isUserPremium = False
-            LOGGER.info("[SUCCESS] Initiated UserBot : Non-Premium Mode. Add Premium Account StringSession to Use 4GB Upload. ")
+        with userBot:
+            if (userBot.get_me()).is_premium:
+                isUserPremium = True
+                LOGGER.info("[SUCCESS] Initiated UserBot : Premium Mode") #Logging is Needed Very Much
+            else:
+                isUserPremium = False
+                LOGGER.info("[SUCCESS] Initiated UserBot : Non-Premium Mode. Add Premium Account StringSession to Use 4GB Upload. ")
     else:
         LOGGER.warning("[FAILED] Userbot Not Started. ReCheck Your STRING_SESSION, and Other Vars")
 
