@@ -89,6 +89,7 @@ async def incoming_message_f(client: Client, message: Message):
     elif BOT_PM and (not LEECH_LOG):
         LOGGER.warning("[Bot PM] Must Provide LEECH_LOG to Use it")
 
+    rpy_mssg_id=None
     if USER_DTS:
         text__, txtCancel = getDetails(client, message, 'Leech')
         link_text = await message.reply_text(text=text__, parse_mode=enums.ParseMode.HTML, quote=True, disable_web_page_preview=True)
