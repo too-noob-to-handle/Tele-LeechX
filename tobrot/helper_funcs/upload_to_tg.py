@@ -361,7 +361,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
             )
             prog = Progress(from_user, client, message_for_progress_display)
         LOGGER.info(f"Premium Active : {prm_atv}")
-        if str(message.chat.id) in str(EXCEP_CHATS) and not prm_atv:
+        if message.chat.id in EXCEP_CHATS and not prm_atv:
             sent_message = await message.reply_document(
                 document=local_file_name,
                 thumb=thumb,
@@ -374,7 +374,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                     start_time,
                 ),
             )
-        elif str(message.chat.id) in str(EXCEP_CHATS) and prm_atv:
+        elif message.chat.id in EXCEP_CHATS and prm_atv:
             with userBot:
                 LOGGER.info("UserBot Upload : Started")
                 sent_msg = await userBot.send_document(
@@ -531,7 +531,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                         )
                     )
                 else:
-                    if str(message.chat.id) in str(EXCEP_CHATS) and not prm_atv:
+                    if message.chat.id in EXCEP_CHATS and not prm_atv:
                         sent_message = await message.reply_video(
                             video=local_file_name,
                             caption=caption_str,
@@ -548,7 +548,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                                 start_time,
                             ),
                          )
-                    elif str(message.chat.id) in str(EXCEP_CHATS) and prm_atv:
+                    elif message.chat.id in EXCEP_CHATS and prm_atv:
                         with userBot:
                             LOGGER.info("UserBot Upload : Started [VIDEO]")
                             sent_msg = await userBot.send_video(
@@ -680,7 +680,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                         )
                     )
                 else:
-                    if str(message.chat.id) in str(EXCEP_CHATS):
+                    if message.chat.id in EXCEP_CHATS:
                         sent_message = await message.reply_audio(
                             audio=local_file_name,
                             caption=caption_str,
@@ -756,7 +756,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                         )
                     )
                 else:
-                    if str(message.chat.id) in str(EXCEP_CHATS):
+                    if message.chat.id in EXCEP_CHATS:
                         sent_message = await message.reply_document(
                             document=local_file_name,
                             thumb=thumb,
