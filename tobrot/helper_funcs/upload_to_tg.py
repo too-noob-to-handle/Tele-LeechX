@@ -328,6 +328,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
     await asleep(EDIT_SLEEP_TIME_OUT)
     local_file_name = str(Path(local_file_name).resolve())
     sent_message = None
+    thumbnail_location = f"{DOWNLOAD_LOCATION}/thumbnails/{from_user}.jpg"
     start_time = time()
 
     __uploadAsDoc = user_specific_config.get(from_user, False)
@@ -348,7 +349,6 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
     if UPLOAD_AS_DOC.lower() == "true" or __uploadAsDoc:
         thumb = None
         thumb_image_path = None
-        thumbnail_location = f"{DOWNLOAD_LOCATION}/thumbnails/{from_user}.jpg"
         if opath.exists(thumbnail_location):
             thumb_image_path = await copy_file(
                 thumbnail_location, opath.dirname(opath.abspath(local_file_name))
