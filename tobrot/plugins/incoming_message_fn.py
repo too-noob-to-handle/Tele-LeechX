@@ -47,7 +47,7 @@ async def incoming_purge_message_f(client: Client, message: Message):
     await msg.delete()
 
 async def check_bot_pm(client: Client, message: Message):
-    if message.chat.type != enums.ChatType.PRIVATE and str(message.chat.id) not in str(EXCEP_CHATS):
+    if message.chat.type != enums.ChatType.PRIVATE and message.chat.id not in EXCEP_CHATS:
         LOGGER.info("[Bot PM] Initiated")
         try:
             send = await client.send_message(message.from_user.id, text='Leech Started !!')
