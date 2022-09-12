@@ -329,7 +329,6 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
     local_file_name = str(Path(local_file_name).resolve())
     sent_message = None
     start_time = time()
-    thumbnail_location = f"{DOWNLOAD_LOCATION}/thumbnails/{from_user}.jpg"
 
     __uploadAsDoc = user_specific_config.get(from_user, False)
         
@@ -349,11 +348,13 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
     if UPLOAD_AS_DOC.lower() == "true" or __uploadAsDoc:
         thumb = None
         thumb_image_path = None
+        thumbnail_location = f"{DOWNLOAD_LOCATION}/thumbnails/{from_user}.jpg"
         if opath.exists(thumbnail_location):
             thumb_image_path = await copy_file(
                 thumbnail_location, opath.dirname(opath.abspath(local_file_name))
             )
         thumb = thumb_image_path
+        
         message_for_progress_display = message
         if not edit_media:
             message_for_progress_display = await message.reply_text(
@@ -569,35 +570,15 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                                 ),
                             )
                             LOGGER.info("UserBot Upload : Completed")
-                        try:
-                            sent_message = await client.send_video(
-                                chat_id=message.chat.id,
-                                video=sent_msg.video.file_id,
-                                thumb=thumb,
-                                duration=duration,
-                                width=width,
-                                height=height,
-                                supports_streaming=True,
-                                caption=caption_str,
-                                parse_mode=enums.ParseMode.HTML,
-                                disable_notification=True,
-                                reply_to_message_id=message.id
-                            )
-                        except Exception as e:
-                            LOGGER.info(f"[4GB UPLOAD] : {e}")
-                            try:
-                                sent_message = await sent_msg.copy(chat_id = message.chat.id, reply_to_message_id=message.id)
-                            except Exception as er:
-                                LOGGER.info(f"[4GB UPLOAD USER] : {er}")
-                                sent_message = await client.copy_message(
-                                    chat_id=message.chat.id,
-                                    from_chat_id=int(PRM_LOG),
-                                    message_id=sent_msg.id,
-                                    caption=caption_str,
-                                    parse_mode=enums.ParseMode.HTML,
-                                    reply_to_message_id=message.id
-                                )
-                                idc = True
+                        sent_message = await client.copy_message(
+                            chat_id=message.chat.id,
+                            from_chat_id=int(PRM_LOG),
+                            message_id=sent_msg.id,
+                            caption=caption_str,
+                            parse_mode=enums.ParseMode.HTML,
+                            reply_to_message_id=message.id
+                        )
+                        idc = False
                         LOGGER.info("Bot 4GB Upload : Completed")
                     else:
                         sent_message = await client.send_video(
