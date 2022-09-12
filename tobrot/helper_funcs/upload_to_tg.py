@@ -443,7 +443,7 @@ async def upload_single_file(message, local_file_name, caption_str, from_user, c
                         parse_mode=enums.ParseMode.HTML,
                         reply_to_message_id=message.id
                     )
-                    idc = True
+                    idc = False
             LOGGER.info("Bot 4GB Upload : Completed")
         else:
             sent_message = await client.send_document(
