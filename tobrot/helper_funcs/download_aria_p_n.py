@@ -341,16 +341,16 @@ async def call_apropriate_function(
                     )
                     if len(mention_req_user.encode('utf-8') + message_to_send.encode('utf-8') + message_credits.encode('utf-8')) > 4000:
                         tsleep(1.5)
-                        await __sendSpecificLogMsg(client, user_message, mention_req_user, message_to_send, message_credits, rpy_mssg_id, u_id)
+                        await __sendSpecificLogMsg(client, user_message, mention_req_user, message_to_send, message_credits, u_id, rpy_mssg_id)
                         message_to_send = ""
                 if message_to_send != "":
                     tsleep(1.5)
-                    await __sendSpecificLogMsg(client, user_message, mention_req_user, message_to_send, message_credits, rpy_mssg_id, u_id)
+                    await __sendSpecificLogMsg(client, user_message, mention_req_user, message_to_send, message_credits, u_id, rpy_mssg_id)
             except Exception as go:
                 LOGGER.error(go)
     return True, None
 
-async def __sendSpecificLogMsg(client, user_message, req, send, cred, rpy_mssg_id=None, u_id):
+async def __sendSpecificLogMsg(client, user_message, req, send, cred, u_id, rpy_mssg_id=None):
     if LEECH_LOG and str(user_message.chat.id) not in str(EXCEP_CHATS):
         log_txt = "┃ <b>🖨 Requested Leeched File are Sent to User PM.</b>\n"
         if BOT_PM: 
