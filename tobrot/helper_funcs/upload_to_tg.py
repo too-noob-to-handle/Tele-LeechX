@@ -26,8 +26,10 @@ from pyrogram.errors import FloodWait, MessageNotModified
 from pyrogram.types import InputMediaAudio, InputMediaDocument, InputMediaVideo
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-from tobrot import DESTINATION_FOLDER, DOWNLOAD_LOCATION, EDIT_SLEEP_TIME_OUT, INDEX_LINK, VIEW_LINK, LOGGER, TG_MAX_FILE_SIZE, UPLOAD_AS_DOC, \
-                   CAP_STYLE, CUSTOM_CAPTION, user_specific_config, bot, LEECH_LOG, EXCEP_CHATS, EX_LEECH_LOG, BOT_PM, TG_PRM_FILE_SIZE, PRM_USERS, PRM_LOG, isUserPremium, AUTH_CHANNEL, UPDATES_CHANNEL
+from tobrot import DESTINATION_FOLDER, DOWNLOAD_LOCATION, EDIT_SLEEP_TIME_OUT, INDEX_LINK, VIEW_LINK, LOGGER, \
+                   TG_MAX_FILE_SIZE, UPLOAD_AS_DOC, CAP_STYLE, CUSTOM_CAPTION, user_specific_config, bot, LEECH_LOG, \
+                   EXCEP_CHATS, EX_LEECH_LOG, BOT_PM, TG_PRM_FILE_SIZE, PRM_USERS, PRM_LOG, isUserPremium, AUTH_CHANNEL, \
+                   UPDATES_CHANNEL
 if isUserPremium:
     from tobrot import userBot
 from tobrot.bot_theme.themes import BotTheme
