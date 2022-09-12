@@ -67,6 +67,7 @@ async def check_bot_pm(client: Client, message: Message):
 ┗ <i>From Now on, Links and Leeched Files in PM and Log Channel Only !!</i>'''
             message = await message.reply_text(text=startwarn, parse_mode=enums.ParseMode.HTML, quote=True, reply_markup=button_markup)
             return False
+    else: return True
 
 async def incoming_message_f(client: Client, message: Message):
     """/leech command or /gleech command"""
